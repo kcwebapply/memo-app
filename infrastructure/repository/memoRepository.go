@@ -3,7 +3,7 @@ package memoRepository
 import (
 	"database/sql"
 	"fmt"
-	"math/rand"
+	"strconv"
 
 	. "github.com/kcwebapply/examination/infrastructure/model"
 	_ "github.com/lib/pq"
@@ -17,7 +17,6 @@ var db_name = "memo"
 var Db *sql.DB
 
 func init() {
-	rand.Float32()
 	var err error
 	Db, err = sql.Open("postgres", "postgres://"+user+":"+password+"@"+host+"/"+db_name+"?sslmode=disable")
 	if err != nil {
@@ -34,6 +33,18 @@ func GetOneMemo(memo_id string) Memo {
 		fmt.Print("error:", err)
 	}
 	return memo
+}
+
+func GetNewId() string {
+	var newId int
+	var err error
+	err = Db.QueryRow("select id from memo order by id desc limit 1").Scan(&newId)
+	newId++
+	if err != nil {
+		fmt.Print("error:", err)
+	}
+	fmt.Println("idは", strconv.Itoa(newId))
+	return strconv.Itoa(newId)
 }
 
 func SaveMemo(memo Memo) bool {

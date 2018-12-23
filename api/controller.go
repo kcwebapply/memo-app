@@ -32,5 +32,6 @@ func getMemo(c *gin.Context) {
 func postMemo(c *gin.Context) {
 	memorequest := MemoRequest{}
 	c.BindJSON(&memorequest)
+	service.PostMemo(memorequest)
 	c.JSON(http.StatusOK, memorequest)
 }

@@ -5,20 +5,22 @@ import (
 	"fmt"
 	"strconv"
 
+	. "github.com/kcwebapply/examination/infrastructure/config"
 	. "github.com/kcwebapply/examination/infrastructure/model"
 	_ "github.com/lib/pq"
 )
 
-var user = "wadakeishi"
-var password = "qazwsx12e"
-var host = "localhost"
-var db_name = "memo"
+var user = ""
+var password = ""
+var host = ""
+var db_name = ""
 
 var Db *sql.DB
 
 func init() {
+	config := GetConfig()
 	var err error
-	Db, err = sql.Open("postgres", "postgres://"+user+":"+password+"@"+host+"/"+db_name+"?sslmode=disable")
+	Db, err = sql.Open("postgres", "postgres://"+config.DB.User+":"+config.DB.Password+"@"+config.DB.Host+"/"+config.DB.DbName+"?sslmode=disable")
 	if err != nil {
 		fmt.Println("error connection:", err)
 		panic(err)

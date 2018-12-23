@@ -1,0 +1,6 @@
+package: github.com/kcwebapply/examination
+import:
+- package: github.com/gin-gonic/gin
+  version: v1.3.0
+- package: github.com/lib/pq
+  version: v1.0.0

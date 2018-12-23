@@ -12,10 +12,19 @@ func GetMemo(memo_id string) Memo {
 	return repository.GetOneMemo(memo_id)
 }
 
+func GetAllMemo() []Memo {
+	var memos, _ = repository.GetAllEffectiveMemo()
+	return memos
+}
+
 func PostMemo(memoRequest MemoRequest) bool {
 	var newId = repository.GetNewId()
 	memoObject := Memo{Id: newId, Title: memoRequest.Title, Text: memoRequest.Text, Flag: false, Date: timeGenerator()}
 	return repository.SaveMemo(memoObject)
+}
+
+func DeleteMemo(memo_id string) {
+	repository.DeleteMemo(memo_id)
 }
 
 func timeGenerator() string {

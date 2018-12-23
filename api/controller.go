@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,14 +13,16 @@ var request_path_root = "/memo/"
 func SetRouter(r *gin.Engine) *gin.Engine {
 	//r := gin.Default()
 	r.GET(request_path_root+"list", getList)
-	r.GET(request_path_root+"property/:memo_id", getMemo)
-	r.POST(request_path_root+"list", postMemo)
+	r.GET(request_path_root+"get/:memo_id", getMemo)
+	r.POST(request_path_root+"post", postMemo)
+	r.DELETE(request_path_root+"delete/:memo_id", deleteMemo)
 	//r.Run(":8888")
 	return r
 }
 
 func getList(c *gin.Context) {
-	fmt.Println("request", c)
+	memos := service.GetAllMemo()
+	c.JSON(http.StatusOK, memos)
 }
 
 func getMemo(c *gin.Context) {
@@ -34,4 +35,8 @@ func postMemo(c *gin.Context) {
 	c.BindJSON(&memorequest)
 	service.PostMemo(memorequest)
 	c.JSON(http.StatusOK, memorequest)
+}
+
+func deleteMemo(c *gin.Context) {
+	service.DeleteMemo(c.Param("memo_id"))
 }

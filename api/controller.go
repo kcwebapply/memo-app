@@ -1,4 +1,4 @@
-package main
+package controller
 
 import (
 	"fmt"
@@ -11,12 +11,13 @@ import (
 
 var request_path_root = "/memo/"
 
-func main() {
-	r := gin.Default()
+func SetRouter(r *gin.Engine) *gin.Engine {
+	//r := gin.Default()
 	r.GET(request_path_root+"list", getList)
 	r.GET(request_path_root+"property/:memo_id", getMemo)
 	r.POST(request_path_root+"list", postMemo)
-	r.Run(":8888")
+	//r.Run(":8888")
+	return r
 }
 
 func getList(c *gin.Context) {
@@ -31,4 +32,5 @@ func getMemo(c *gin.Context) {
 func postMemo(c *gin.Context) {
 	memorequest := MemoRequest{}
 	c.BindJSON(&memorequest)
+	c.JSON(http.StatusOK, memorequest)
 }

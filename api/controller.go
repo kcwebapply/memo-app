@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	. "github.com/kcwebapply/examination/api/resource"
-	service "github.com/kcwebapply/examination/domain/service"
+	. "github.com/kcwebapply/memo-app/api/resource"
+	service "github.com/kcwebapply/memo-app/domain/service"
 )
 
 var request_path_root = "/memo/"

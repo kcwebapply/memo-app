@@ -47,6 +47,21 @@
   revision = "d05f387f50c0c406889b62cb5ec51c76a64d89ee"
 
 [[projects]]
+  branch = "master"
+  digest = "1:bb1c17117444aed3c44b801bb0748aedf25b8b1eddf744121c010320f8619290"
+  name = "github.com/kcwebapply/memo-app"
+  packages = [
+    "api",
+    "api/resource",
+    "domain/service",
+    "infrastructure/config",
+    "infrastructure/model",
+    "infrastructure/repository",
+  ]
+  pruneopts = "UT"
+  revision = "29dd25009566a829b654d3001274d177f24e4e4b"
+
+[[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
   name = "github.com/lib/pq"
   packages = [
@@ -119,17 +134,13 @@
   input-imports = [
     "github.com/BurntSushi/toml",
     "github.com/gin-gonic/gin",
-    "github.com/gin-gonic/gin/json",
-    "github.com/golang/protobuf/proto",
-    "github.com/json-iterator/go",
+    "github.com/kcwebapply/memo-app/api",
+    "github.com/kcwebapply/memo-app/api/resource",
+    "github.com/kcwebapply/memo-app/domain/service",
+    "github.com/kcwebapply/memo-app/infrastructure/config",
+    "github.com/kcwebapply/memo-app/infrastructure/model",
+    "github.com/kcwebapply/memo-app/infrastructure/repository",
     "github.com/lib/pq",
-    "github.com/lib/pq/oid",
-    "github.com/modern-go/concurrent",
-    "github.com/modern-go/reflect2",
-    "github.com/ugorji/go/codec",
-    "golang.org/x/sys/unix",
-    "gopkg.in/go-playground/validator.v8",
-    "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

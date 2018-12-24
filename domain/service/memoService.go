@@ -3,9 +3,9 @@ package memoservice
 import (
 	"time"
 
-	. "github.com/kcwebapply/examination/api/resource"
-	. "github.com/kcwebapply/examination/infrastructure/model"
-	repository "github.com/kcwebapply/examination/infrastructure/repository"
+	. "github.com/kcwebapply/memo-app/api/resource"
+	. "github.com/kcwebapply/memo-app/infrastructure/model"
+	repository "github.com/kcwebapply/memo-app/infrastructure/repository"
 )
 
 func GetMemo(memo_id string) Memo {

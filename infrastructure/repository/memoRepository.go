@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
-	. "github.com/kcwebapply/examination/infrastructure/config"
-	. "github.com/kcwebapply/examination/infrastructure/model"
+	. "github.com/kcwebapply/memo-app/infrastructure/config"
+	. "github.com/kcwebapply/memo-app/infrastructure/model"
 	_ "github.com/lib/pq"
 )
 

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	controller "github.com/kcwebapply/examination/api"
+	controller "github.com/kcwebapply/memo-app/api"
 )
 
 func main() {

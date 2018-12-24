@@ -10,21 +10,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var user = ""
-var password = ""
-var host = ""
-var db_name = ""
-
 var Db *sql.DB
 
 func init() {
-	config := GetConfig()
-	var err error
-	Db, err = sql.Open("postgres", "postgres://"+config.DB.User+":"+config.DB.Password+"@"+config.DB.Host+"/"+config.DB.DbName+"?sslmode=disable")
-	if err != nil {
-		fmt.Println("error connection:", err)
-		panic(err)
-	}
+	Db = GetConnection()
 }
 
 func GetOneMemo(memo_id string) Memo {
@@ -82,13 +71,3 @@ func DeleteMemo(memo_id string) bool {
 	}
 	return err == nil
 }
-
-/*func GetOneMemo(memo_id string) Memo{
-  memo := Memo{}
-  var err error
-  err = Db.QueryRow("select id,title,text,flag,date from memo where id = $1", memo_id).Scan(&memo.Id, &memo.Title, &memo.Text,&memo.Flag,&memo.Date)
-  if(err != nil){
-    fmt.Print("error:",err)
-  }
-  return memo
-}*/

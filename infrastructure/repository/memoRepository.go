@@ -11,18 +11,17 @@ import (
 )
 
 var Db *dbr.Connection
-var Sess *dbr.Session
 
 func init() {
 	Db = GetConnection()
 	Db.SetMaxOpenConns(10)
-	Sess = Db.NewSession(nil)
 }
 
 func GetOneMemo(memo_id string) Memo {
+	sess := Db.NewSession(nil)
 	var memo Memo
 	var err error
-	_, err = Sess.Select("id,title,text,flag,date").From("memo").Where("id = ?", memo_id).Load(&memo)
+	_, err = sess.Select("id,title,text,flag,date").From("memo").Where("id = ?", memo_id).Load(&memo)
 	if err != nil {
 		fmt.Print("error:", err)
 	}

@@ -51,7 +51,6 @@ func GetNewId() string {
 
 func SaveMemo(memo Memo) bool {
 	var err error
-	fmt.Print("title", memo.Title, "text", memo.Text)
 	Sess.InsertInto("memo").Columns("id", "title", "text", "flag", "date").Record(memo).Exec()
 	if err != nil {
 		fmt.Print("error:", err)

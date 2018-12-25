@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	. "github.com/kcwebapply/memo-app/api/resource"
+	. "github.com/kcwebapply/memo-app/api/validator"
 	service "github.com/kcwebapply/memo-app/domain/service"
 )
 
@@ -24,13 +25,21 @@ func getList(c *gin.Context) {
 }
 
 func getMemo(c *gin.Context) {
+	var memoId = c.Param("memo_id")
+	if err := IdValidator(memoId); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	memo := service.GetMemo(c.Param("memo_id"))
 	c.JSON(http.StatusOK, memo)
 }
 
 func postMemo(c *gin.Context) {
 	memorequest := MemoRequest{}
-	c.BindJSON(&memorequest)
+	if err := c.BindJSON(&memorequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+		return
+	}
 	service.PostMemo(memorequest)
 	c.JSON(http.StatusOK, memorequest)
 }

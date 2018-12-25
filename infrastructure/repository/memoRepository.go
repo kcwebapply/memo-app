@@ -11,17 +11,18 @@ import (
 )
 
 var Db *dbr.Connection
+var Sess *dbr.Session
 
 func init() {
 	Db = GetConnection()
 	Db.SetMaxOpenConns(10)
+	Sess = Db.NewSession(nil)
 }
 
 func GetOneMemo(memo_id string) Memo {
-	sess := Db.NewSession(nil)
 	var memo Memo
 	var err error
-	_, err = sess.Select("id,title,text,flag,date").From("memo").Where("id = ?", memo_id).Load(&memo)
+	_, err = Sess.Select("id,title,text,flag,date").From("memo").Where("id = ?", memo_id).Load(&memo)
 	if err != nil {
 		fmt.Print("error:", err)
 	}
@@ -29,9 +30,8 @@ func GetOneMemo(memo_id string) Memo {
 }
 
 func GetAllEffectiveMemo() (memos []Memo, err error) {
-	sess := Db.NewSession(nil)
 	var rows []Memo
-	_, err = sess.Select("*").From("memo").Where("flag = ?", false).Load(&rows)
+	_, err = Sess.Select("*").From("memo").Where("flag = ?", false).Load(&rows)
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -41,8 +41,7 @@ func GetAllEffectiveMemo() (memos []Memo, err error) {
 func GetNewId() string {
 	var newId int
 	var err error
-	sess := Db.NewSession(nil)
-	sess.Select("id").From("memo").OrderDesc("id").Limit(1).Load(&newId)
+	Sess.Select("id").From("memo").OrderDesc("id").Limit(1).Load(&newId)
 	newId++
 	if err != nil {
 		fmt.Print("error:", err)
@@ -53,8 +52,7 @@ func GetNewId() string {
 func SaveMemo(memo Memo) bool {
 	var err error
 	fmt.Print("title", memo.Title, "text", memo.Text)
-	sess := Db.NewSession(nil)
-	sess.InsertInto("memo").Columns("id", "title", "text", "flag", "date").Record(memo).Exec()
+	Sess.InsertInto("memo").Columns("id", "title", "text", "flag", "date").Record(memo).Exec()
 	if err != nil {
 		fmt.Print("error:", err)
 	}
@@ -63,8 +61,7 @@ func SaveMemo(memo Memo) bool {
 
 func DeleteMemo(memo_id string) bool {
 	var err error
-	sess := Db.NewSession(nil)
-	sess.Update("memo").Set("flag", true).Where("id = ?", memo_id).Exec()
+	Sess.Update("memo").Set("flag", true).Where("id = ?", memo_id).Exec()
 	if err != nil {
 		fmt.Print("error:", err)
 	}

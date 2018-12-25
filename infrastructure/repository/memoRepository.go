@@ -1,25 +1,28 @@
 package memoRepository
 
 import (
-	"database/sql"
 	"fmt"
 	"strconv"
 
+	"github.com/gocraft/dbr"
 	. "github.com/kcwebapply/memo-app/infrastructure/config"
 	. "github.com/kcwebapply/memo-app/infrastructure/model"
 	_ "github.com/lib/pq"
 )
 
-var Db *sql.DB
+var Db *dbr.Connection
+var Sess *dbr.Session
 
 func init() {
 	Db = GetConnection()
+	Db.SetMaxOpenConns(10)
+	Sess = Db.NewSession(nil)
 }
 
 func GetOneMemo(memo_id string) Memo {
-	memo := Memo{}
+	var memo Memo
 	var err error
-	err = Db.QueryRow("select id,title,text,flag,date from memo where id = $1", memo_id).Scan(&memo.Id, &memo.Title, &memo.Text, &memo.Flag, &memo.Date)
+	_, err = Sess.Select("id,title,text,flag,date").From("memo").Where("id = ?", memo_id).Load(&memo)
 	if err != nil {
 		fmt.Print("error:", err)
 	}
@@ -27,26 +30,18 @@ func GetOneMemo(memo_id string) Memo {
 }
 
 func GetAllEffectiveMemo() (memos []Memo, err error) {
-	rows, err := Db.Query("select id,title,text,flag,date from memo where flag=false")
+	var rows []Memo
+	_, err = Sess.Select("*").From("memo").Where("flag = ?", false).Load(&rows)
 	if err != nil {
 		fmt.Print(err)
 	}
-	for rows.Next() {
-		memo := Memo{}
-		err = rows.Scan(&memo.Id, &memo.Title, &memo.Text, &memo.Flag, &memo.Date)
-		if err != nil {
-			fmt.Print(err)
-		}
-		memos = append(memos, memo)
-	}
-	rows.Close()
-	return memos, err
+	return rows, err
 }
 
 func GetNewId() string {
 	var newId int
 	var err error
-	err = Db.QueryRow("select id from memo order by id desc limit 1").Scan(&newId)
+	Sess.Select("id").From("memo").OrderDesc("id").Limit(1).Load(&newId)
 	newId++
 	if err != nil {
 		fmt.Print("error:", err)
@@ -56,7 +51,8 @@ func GetNewId() string {
 
 func SaveMemo(memo Memo) bool {
 	var err error
-	_, err = Db.Exec("insert into memo values($1,$2,$3,$4,$5)", memo.Id, memo.Title, memo.Text, memo.Flag, memo.Date)
+	fmt.Print("title", memo.Title, "text", memo.Text)
+	Sess.InsertInto("memo").Columns("id", "title", "text", "flag", "date").Record(memo).Exec()
 	if err != nil {
 		fmt.Print("error:", err)
 	}
@@ -65,7 +61,7 @@ func SaveMemo(memo Memo) bool {
 
 func DeleteMemo(memo_id string) bool {
 	var err error
-	_, err = Db.Exec("update memo set flag = true where id = $1", memo_id)
+	Sess.Update("memo").Set("flag", true).Where("id = ?", memo_id).Exec()
 	if err != nil {
 		fmt.Print("error:", err)
 	}

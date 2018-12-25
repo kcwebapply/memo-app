@@ -31,6 +31,17 @@
   version = "v1.3.0"
 
 [[projects]]
+  digest = "1:2f99776ce3e90e6aa852cb6a92c551f5017142d897e34f832a0a1c08c6602949"
+  name = "github.com/gocraft/dbr"
+  packages = [
+    ".",
+    "dialect",
+  ]
+  pruneopts = "UT"
+  revision = "042fe86dc2daa9684f746ab337971e84147e8856"
+  version = "v2.4"
+
+[[projects]]
   branch = "master"
   digest = "1:318f1c959a8a740366fce4b1e1eb2fd914036b4af58fbd0a003349b305f118ad"
   name = "github.com/golang/protobuf"
@@ -45,21 +56,6 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "d05f387f50c0c406889b62cb5ec51c76a64d89ee"
-
-[[projects]]
-  branch = "master"
-  digest = "1:bb1c17117444aed3c44b801bb0748aedf25b8b1eddf744121c010320f8619290"
-  name = "github.com/kcwebapply/memo-app"
-  packages = [
-    "api",
-    "api/resource",
-    "domain/service",
-    "infrastructure/config",
-    "infrastructure/model",
-    "infrastructure/repository",
-  ]
-  pruneopts = "UT"
-  revision = "29dd25009566a829b654d3001274d177f24e4e4b"
 
 [[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
@@ -134,12 +130,7 @@
   input-imports = [
     "github.com/BurntSushi/toml",
     "github.com/gin-gonic/gin",
-    "github.com/kcwebapply/memo-app/api",
-    "github.com/kcwebapply/memo-app/api/resource",
-    "github.com/kcwebapply/memo-app/domain/service",
-    "github.com/kcwebapply/memo-app/infrastructure/config",
-    "github.com/kcwebapply/memo-app/infrastructure/model",
-    "github.com/kcwebapply/memo-app/infrastructure/repository",
+    "github.com/gocraft/dbr",
     "github.com/lib/pq",
   ]
   solver-name = "gps-cdcl"

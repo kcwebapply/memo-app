@@ -1,29 +1,28 @@
 package dbConfig
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/BurntSushi/toml"
+	"github.com/gocraft/dbr"
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var conn *dbr.Connection
 
 // db initialization
 func init() {
 	var config = getConfig()
-	var err error
-	db, err = sql.Open("postgres", "postgres://"+config.DB.User+":"+config.DB.Password+"@"+config.DB.Host+"/"+config.DB.DbName+"?sslmode=disable")
+	connection, err := dbr.Open("postgres", "postgres://"+config.DB.User+":"+config.DB.Password+"@"+config.DB.Host+"/"+config.DB.DbName+"?sslmode=disable", nil)
 	if err != nil {
-		fmt.Println("error connection:", err)
-		panic(err)
+		fmt.Println("error happened in connection:", err)
 	}
+	conn = connection
 }
 
 // get DatabaseConnection
-func GetConnection() *sql.DB {
-	return db
+func GetConnection() *dbr.Connection {
+	return conn
 }
 
 // get config prom toml property

@@ -25,7 +25,7 @@ func getList(c *gin.Context) {
 }
 
 func getMemo(c *gin.Context) {
-	var memoId = c.Param("memo_id")
+	var memoId string = c.Param("memo_id")
 	if err := IdValidator(memoId); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -45,7 +45,7 @@ func postMemo(c *gin.Context) {
 }
 
 func deleteMemo(c *gin.Context) {
-	var memoId = c.Param("memo_id")
+	var memoId string = c.Param("memo_id")
 	if err := IdValidator(memoId); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

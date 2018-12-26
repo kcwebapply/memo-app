@@ -12,7 +12,7 @@ var conn *dbr.Connection
 
 // db initialization
 func init() {
-	var config = getConfig()
+	var config Config = getConfig()
 	connection, err := dbr.Open("postgres", "postgres://"+config.DB.User+":"+config.DB.Password+"@"+config.DB.Host+"/"+config.DB.DbName+"?sslmode=disable", nil)
 	if err != nil {
 		fmt.Println("error happened in connection:", err)

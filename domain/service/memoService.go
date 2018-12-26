@@ -18,7 +18,7 @@ func GetAllMemo() []Memo {
 }
 
 func PostMemo(memoRequest MemoRequest) bool {
-	var newId = repository.GetNewId()
+	var newId string = repository.GetNewId()
 	memoObject := Memo{Id: newId, Title: memoRequest.Title, Text: memoRequest.Text, Flag: false, Date: timeGenerator()}
 	return repository.SaveMemo(memoObject)
 }
